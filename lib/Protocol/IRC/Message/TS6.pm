@@ -2,6 +2,7 @@ package Protocol::IRC::Message::TS6;
 
 use strict;
 use warnings;
+use 5.010; # //
 
 use base qw( Protocol::IRC::Message );
 
@@ -31,6 +32,16 @@ sub _arg_names {
         $self->SUPER::_arg_names,
         %ARG_NAMES,
     );
+}
+
+sub new_from_named_args {
+    my ($class, $command, %args) = @_;
+
+    my $argnames = $class->arg_names($command);
+
+    $args{ts} //= time if exists $argnames->{ts};
+
+    return $class->next::method($command, %args);
 }
 
 =head2 prefix_split
