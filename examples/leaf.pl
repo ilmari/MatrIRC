@@ -53,6 +53,15 @@ $irc->login(
       () ),
 )->get;
 
+my $UID = 'A' x 6;
+
+my %user = (
+    uid => $SID . $UID++,
+    nick => 'nairc', gecos => 'NaIRC test',
+    username => 'NaIRC', hostname => 'localhost', ip => '127.0.0.1',
+    umodes => '+w', hopcount => 1
+);
+
 print "Now logged in...\n";
 
 my $stdin = IO::Async::Stream->new_for_stdin( on_read => sub {} );
@@ -65,7 +74,16 @@ my $eof;
       return if $eof;
 
       chomp $line;
-      my $message = Protocol::IRC::Message::TS6->new_from_line( $line );
-      $irc->send_message( $message );
+
+      if ($line eq 'uid') {
+          $irc->send_message(UID => { %user });
+      }
+      elsif ($line eq 'join') {
+          $irc->send_message(JOIN => { uid => $user{uid}, target_name => '#test' });
+      }
+      else {
+          my $message = Protocol::IRC::Message::TS6->new_from_line( $line );
+          $irc->send_message( $message );
+      }
    });
 } while => sub {  !$_[0]->failure and !$eof } )->get;
