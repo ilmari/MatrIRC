@@ -12,6 +12,7 @@ BEGIN { $ENV{$_} = 1 for qw(PERL_FUTURE_DEBUG IO_ASYNC_DEBUG) };
 use Future::Utils qw( repeat );
 use IO::Async::Loop;
 use MatrIRC::Server;
+use DateTime;
 
 GetOptions(
    'server|s=s' => \my $SERVER,
@@ -36,6 +37,8 @@ my $irc = MatrIRC::Server->new(
       my ( $self, $command, $message, $hints ) = @_;
 
       printf "<<%s>>: %s\n", $command, join( " ", $message->args );
+      $hints->{ts_iso} = DateTime->from_epoch(epoch => $hints->{ts})->iso8601
+          if exists $hints->{ts};
       print "| $_\n" for split m/\n/, pp( $hints );
 
       return 1;
