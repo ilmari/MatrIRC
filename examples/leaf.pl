@@ -7,6 +7,8 @@ use Devel::Dwarn;
 use Data::Dump 'pp';
 use Getopt::Long;
 
+BEGIN { $ENV{$_} = 1 for qw(PERL_FUTURE_DEBUG IO_ASYNC_DEBUG) };
+
 use Future::Utils qw( repeat );
 use IO::Async::Loop;
 use Net::Async::IRC::TS6;
