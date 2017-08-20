@@ -7,7 +7,7 @@ use 5.010; # //
 use base qw( Protocol::IRC::Message );
 
 my %ARG_NAMES = (
-    JOIN => { ts => 0 , target_name => 1 },
+    JOIN => { ts => 0 , target_name => 1, uid => 'pn', modes => [ 2, '+'] },
     PASS => { password => 0, version => 2, sid => 3 },
     CAPAB => { caps => '0@' },
     SERVER => { name => 0, hopcount => 1, description => 2 },
@@ -15,11 +15,12 @@ my %ARG_NAMES = (
     SID => { name => 0, hopcount => 1, sid => 2, gecos => 3 },
     UID => {
         nick => 0, hopcount => 1, ts => 2, umodes => 3,
-        username => 4, hostname => 5, ip => 6, uid => 7, gecos => 9,
+        username => 4, hostname => 5, ip => 6, uid => 7, star => [ 8, '*' ], gecos => 9,
     },
     SJOIN => { ts => 0, target_name => 1, modes => 2, uids => '3@' },
     BMASK => { ts => 0, target_name => 1, type => 2, masks => '3@' },
-    TMODE => { ts => 0, target_name => 1, mode => '2..' },
+    TMODE => { uid => 'pn', ts => 0, target_name => 1,
+               modechars => '2', modeargs => '3..' },
     PING => { text => 0, source => 0, dest => 1 },
     PONG => { text => 0, source => 0, dest => 1 },
     NICK => { old_nick => "pn",  new_nick => 0, ts => 1 },
