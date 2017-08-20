@@ -37,8 +37,8 @@ my $irc = Net::Async::IRC::TS6->new(
       print "| $_\n" for split m/\n/, pp( $hints );
 
       return 1;
-  },
-   on_closed => sub { print "Connection closed\n"; exit 1; },
+   },
+   on_closed => sub { print "Connection closed\n"; $loop->stop; },
 );
 $loop->add( $irc );
 
