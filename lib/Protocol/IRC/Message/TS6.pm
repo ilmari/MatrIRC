@@ -12,7 +12,7 @@ my %ARG_NAMES = (
     CAPAB => { caps => '0@' },
     SERVER => { name => 0, hopcount => 1, description => 2 },
     SVINFO => { version => 0, min_version => 1, ts => 3 },
-    SID => { name => 0, hopcount => 1, sid => 2, gecos => 3 },
+    SID => { upstream => 'pn', name => 0, hopcount => 1, sid => 2, description => 3 },
     UID => {
         nick => 0, hopcount => 1, ts => 2, umodes => 3,
         username => 4, hostname => 5, ip => 6, uid => 7, star => [ 8, '*' ], gecos => 9,
@@ -21,9 +21,10 @@ my %ARG_NAMES = (
     BMASK => { ts => 0, target_name => 1, type => 2, masks => '3@' },
     TMODE => { uid => 'pn', ts => 0, target_name => 1,
                modechars => '2', modeargs => '3..' },
+    PART => { uid => 'pn', target_name => 0, text => 1 },
     PING => { text => 0, source => 0, dest => 1 },
     PONG => { text => 0, source => 0, dest => 1 },
-    NICK => { old_nick => "pn",  new_nick => 0, ts => 1 },
+    NICK => { uid => "pn", new_nick => 0, ts => 1 },
     KILL => { target_name => 0, path => 1 },
 );
 
