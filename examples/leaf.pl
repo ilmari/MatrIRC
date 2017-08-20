@@ -11,7 +11,7 @@ BEGIN { $ENV{$_} = 1 for qw(PERL_FUTURE_DEBUG IO_ASYNC_DEBUG) };
 
 use Future::Utils qw( repeat );
 use IO::Async::Loop;
-use Net::Async::IRC::TS6;
+use MatrIRC::Server;
 
 GetOptions(
    'server|s=s' => \my $SERVER,
@@ -28,7 +28,7 @@ my $loop = IO::Async::Loop->new;
 my $SID  //= '1NA';
 $NAME //= 'nairc.local';
 
-my $irc = Net::Async::IRC::TS6->new(
+my $irc = MatrIRC::Server->new(
    name    => $NAME,
    pass    => $PASS,
    sid     => $SID,
