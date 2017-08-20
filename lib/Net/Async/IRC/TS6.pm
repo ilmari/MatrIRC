@@ -96,6 +96,14 @@ sub _fatal {
     $self->close_now;
 }
 
+sub on_message_CAPAB {
+    my ($self, $message, $hints) = @_;
+
+    $self->_set_server_info($hints, qw(caps));
+
+    return 0;
+}
+
 sub on_message_SERVER {
     my ($self, $message, $hints) = @_;
 
