@@ -56,6 +56,7 @@ sub login {
 
     return $self->{login_f} ||= $self->connect( %args )->then( sub {
         $self->send_message(PASS   => undef, $pass, 'TS', 6, $sid);
+        $self->send_message(CAPAB  => undef, join(' ', qw(EOB)));
         $self->send_message(SERVER => undef, $name, 1, ':NaIRC server');
         $self->send_message(SVINFO => undef, 6, 6, 0, time);
 
@@ -125,11 +126,18 @@ sub on_message_SVINFO {
 
     $self->_set_server_info($hints, qw(version min_version ts));
 
+    return 0;
+}
+
+
+sub on_message_EOB {
+    my ($self, $message, $hints) = @_;
+
     foreach my $f (@{delete($self->{on_login_f}) // []}) {
         $f->done( $self );
     }
 
-    return 0;
+    return 1;
 }
 
 1;
