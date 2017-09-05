@@ -126,6 +126,10 @@ sub on_message_SVINFO {
 
     $self->_set_server_info($hints, qw(version min_version ts));
 
+    if ($self->_server_info('version') != 6 or $self->_server_info('min_version') != 6) {
+        $self->_fatal("Incompatible TS version");
+    }
+
     return 0;
 }
 
