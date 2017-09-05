@@ -42,6 +42,7 @@ has nicks => (
     handles => {
         nick => 'get',
         add_nick => 'set',
+        del_nick => 'delete',
     },
 );
 
@@ -160,8 +161,9 @@ sub on_message_SJOIN ($self, $message, $hints) {
 
 sub on_message_NICK ($self, $message, $hints) {
     if (my $user = $self->user($hints->{uid})) {
-        say "$user->{nick} changed nick to $hints->{new_nick}";
-        $user->@{qw(ts nick)} = $hints->@{qw(ts new_nick)}
+        $self->del_nick($user->{nick});
+        $user->@{qw(ts nick)} = $hints->@{qw(ts new_nick)};
+        $self->add_user($user); # updates nick
     }
 
     return 1;
