@@ -26,6 +26,7 @@ my %ARG_NAMES = (
     PONG => { text => 0, source => 0, dest => 1 },
     NICK => { uid => "pn", new_nick => 0, ts => 1 },
     KILL => { target_name => 0, path => 1 },
+    TBURST => { channel_ts => 0, target_name => 1, topic_ts => 2, setter => 3, topic => 4 },
 );
 
 sub _arg_names {

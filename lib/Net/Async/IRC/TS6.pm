@@ -56,7 +56,7 @@ sub login {
 
     return $self->{login_f} ||= $self->connect( %args )->then( sub {
         $self->send_message(PASS   => undef, $pass, 'TS', 6, $sid);
-        $self->send_message(CAPAB  => undef, join(' ', qw(EOB)));
+        $self->send_message(CAPAB  => undef, join(' ', qw(EOB TBURST)));
         $self->send_message(SERVER => undef, $name, 1, ':NaIRC server');
         $self->send_message(SVINFO => undef, 6, 6, 0, time);
 

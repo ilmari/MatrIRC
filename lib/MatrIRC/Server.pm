@@ -159,6 +159,18 @@ sub on_message_SJOIN ($self, $message, $hints) {
     return 1;
 }
 
+sub on_message_TBURST ($self, $message, $hints) {
+    if (my $channel = $self->channel($hints->{target_name_folded})) {
+        if ($hints->{channel_ts} < $channel->{ts} or
+                ($hints->{channel_ts} == $channel->{ts} and $hints->{topic_ts} > ($channel->{topic_ts} // 0) ))
+        {
+            $channel->@{qw(topic topic_ts topic_setter)} = $hints->@{qw(topic topic_ts setter})}
+        }
+    }
+
+    return 1;
+}
+
 sub on_message_NICK ($self, $message, $hints) {
     if (my $user = $self->user($hints->{uid})) {
         $self->del_nick($user->{nick});
